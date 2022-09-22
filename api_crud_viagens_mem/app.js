@@ -1,28 +1,21 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const rotaViagem = require('./rotas/viagem_rotas')
 const app = express()
 const port = 3000
 
-app.get('/viagens', (req, res) => {
-    res.send('Listando Viagens!')
-  })
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
-app.post('/viagens', (req, res) =>{
-    res.send('Cadastrando Viagem!')
-})
+// Configuração da conexão com o mongo
+mongoose.connect('mongodb://127.0.0.1:27017/app_viagens')
+  .then(() => {
+    console.log("Conectado ao Mongo..");
+  }).catch((error) => {
+     console.log("Error>", error)
+  });
 
-app.get('/viagens/:id', (req, res) => {
-    res.send('Buscando Viagem! '+req.params.id)
-  })
-
-app.put('/viagens/:id',(req, res) =>{
-    res.send('Atualizando Viagem! '+req.params.id)
-})  
-
-app.delete('/viagens/:id',(req, res) =>{
-    res.send('Removendo a Viagem! '+req.params.id)
-}) 
-
-
+app.use('/api/viagens', rotaViagem);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
