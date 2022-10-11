@@ -13,7 +13,8 @@ const ViagemSchema = new Schema({
     local_hospedagem: String,
     valor_hospedagem: Number,
     valor_alimentacao: Number,
-    valor_entreterimento: Number
+    valor_entreterimento: Number,
+    categoria: { type: Schema.Types.ObjectId, ref: 'Categoria' }
 },
 {
     versionKey: false, collection: 'viagens'
